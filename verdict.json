@@ -1,0 +1,9 @@
+{
+    "drug_name": "PARACETAMOL TABLETS IP",
+    "batch_number": "NOT FOUND",
+    "expiry_date": "NOT FOUND",
+    "tamper_score": 65.09402987062079,
+    "confidence": "65.09%",
+    "evidence": "High edge-density region detected on foil surface",
+    "verdict": "SUSPICIOUS"
+}
