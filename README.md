@@ -162,4 +162,7 @@ This project simulates techniques used in:
 
 It shows how pure computer vision can extract safety insights from difficult reflective surfaces.
 
+
+Note: Sample images are used strictly for educational and research demonstration of computer vision techniques. Brand names, if visible, are incidental and not the focus of this project.
+
 ⸻
