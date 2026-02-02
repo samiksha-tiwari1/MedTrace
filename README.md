@@ -1,9 +1,12 @@
 MedTrace — Forensic Inspection of Medicine Strip Authenticity
 
+This project focuses on the challenges of computer vision on reflective pharmaceutical packaging — a problem rarely addressed in typical OCR systems.
+
 
 ## 🔬 MedTrace Inspection Demo
 
 ![MedTrace Demo](assets/medtrace_demo.gif)
+![MedTrace Demo](assets/camera_capture.png)
 
 
 MedTrace is a forensic computer vision pipeline designed to inspect medicine strip images for signs of tampering, surface disturbance, and authenticity risks.
@@ -101,10 +104,27 @@ Normalized Multi-Signal             Realistic forensic tamper score
 
 ⸻
 
+Observed Performance (Empirical)
+
+These values are from testing on multiple strip images:
+	•	Drug name detection: Consistently detected on clear images
+	•	OCR reliability on large text: High
+	•	OCR reliability on micro-print (batch/expiry): Limited by camera resolution and foil reflectivity
+	•	Tamper region localization: Visually consistent across samples
+	•	Processing time per image: ~1.2–2.0 seconds
+
+MedTrace intentionally reports when micro-print OCR is unreliable — mimicking real inspection systems.
+
+
+⸻
+
 ▶ How to Run
 
 python main.py sample_images/your_image.png
 
+Real-time Camera Mode
+
+     python camera_capture.py
 
 ⸻
 
@@ -161,6 +181,16 @@ This project simulates techniques used in:
 	•	Regulatory quality checks
 
 It shows how pure computer vision can extract safety insights from difficult reflective surfaces.
+
+⸻
+
+
+Limitations & Future Work
+	•	Micro-print OCR (batch/expiry) is limited by camera resolution and foil reflectivity
+	•	Future improvement: macro-lens capture and super-resolution preprocessing
+	•	Possible addition: SSIM comparison against clean foil reference
+	•	Potential integration with pharmaceutical packaging inspection workflows
+
 
 
 Note: Sample images are used strictly for educational and research demonstration of computer vision techniques. Brand names, if visible, are incidental and not the focus of this project.

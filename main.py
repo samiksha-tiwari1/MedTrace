@@ -22,6 +22,11 @@ with open("ocr_text.txt", "w") as f:
     for t in texts:
         f.write(t + "\n")
 
+print("\n--- OCR TEXT DUMP ---")
+for t in texts:
+    print(t)
+print("----------------------\n")
+
 # ---------------- Parsing ----------------
 fields = parse_fields(texts)
 

@@ -11,6 +11,7 @@ reader = easyocr.Reader(['en'])
 def deskew(image):
     """
     Automatically rotates the image to correct tilt.
+    Improves OCR accuracy significantly.
     """
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     coords = np.column_stack(np.where(gray > 0))
@@ -33,9 +34,42 @@ def deskew(image):
     return rotated
 
 
+def run_roi_ocr(image):
+    """
+    Second OCR pass for tiny batch/expiry text.
+    Crops bottom-right region, zooms, and enhances it.
+    """
+
+    h, w, _ = image.shape
+
+    # Crop region where batch/expiry usually printed
+    roi = image[int(h * 0.6):h, int(w * 0.5):w]
+
+    # Enlarge ROI to help OCR read tiny text
+    roi = cv2.resize(roi, None, fx=2.5, fy=2.5, interpolation=cv2.INTER_CUBIC)
+
+    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+
+    # Strong threshold for dot-matrix print
+    _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
+
+    # Save for debugging / README evidence
+    cv2.imwrite("roi_zoom.jpg", thresh)
+
+    results = reader.readtext(thresh)
+
+    roi_texts = [text for (_, text, _) in results]
+
+    return roi_texts
+
+
 def run_ocr(image):
     """
-    Runs OCR on an already preprocessed image.
+    Full OCR pipeline:
+    1) Deskew
+    2) Preprocess
+    3) Full-strip OCR
+    4) ROI OCR for batch/expiry
     """
 
     # 🔄 Auto straighten
@@ -54,6 +88,7 @@ def run_ocr(image):
 
     cv2.imwrite("preprocessed.jpg", processed)
 
+    # -------- First Pass OCR (whole strip) --------
     results = reader.readtext(processed)
 
     extracted_texts = []
@@ -73,6 +108,11 @@ def run_ocr(image):
             2
         )
 
+    # -------- Second Pass OCR (tiny text) --------
+    roi_texts = run_roi_ocr(image)
+    extracted_texts.extend(roi_texts)
+
+    # Save OCR visual
     cv2.imwrite("ocr_output.jpg", image)
 
     return extracted_texts
