@@ -1,4 +1,4 @@
-MedTrace — Forensic Inspection of Medicine Strip Authenticity
+## MedTrace — Forensic Inspection of Medicine Strip Authenticity
 
 This project focuses on the challenges of computer vision on reflective pharmaceutical packaging — a problem rarely addressed in typical OCR systems.
 
